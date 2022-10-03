@@ -4,7 +4,6 @@
 #include <ESPAsyncWebServer.h>
 #include <Adafruit_GFX.h>
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
-#include <JPEGDecoder.h>
 
 #define R1_PIN 25
 #define G1_PIN 27
@@ -113,22 +112,9 @@ void setup()
 
             if (final)
             {
-                JpegDec.decodeArray(buffer, index);
                 request->send(200);
 
-                uint8_t x = 0, y = 0;
-                while (JpegDec.read())
-                {
-                    display->drawRGBBitmap(x, y, JpegDec.pImage, JpegDec.MCUWidth, JpegDec.MCUHeight);
-
-                    x += JpegDec.MCUWidth;
-                    if (x == 64)
-                    {
-                        x = 0;
-                        y += JpegDec.MCUHeight;
-                    }
-                }
-
+                display->drawRGBBitmap(0, 0, buffer, 64, 64);
 
                 free(buffer);
                 buffer = NULL;
