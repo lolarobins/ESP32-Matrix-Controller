@@ -4,7 +4,6 @@
 #include <ESPAsyncWebServer.h>
 #include <Adafruit_GFX.h>
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
-#include <JPEGDecoder.h>
 
 #define R1_PIN 25
 #define G1_PIN 27
