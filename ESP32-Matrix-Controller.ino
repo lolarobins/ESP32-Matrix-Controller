@@ -113,27 +113,18 @@ void setup()
 
             if (final)
             {
-                JpegDec.decodeArray(buffer, index);
+                display->drawRGBBitmap(0, 0, (uint16_t *) buffer, 64, 64);
                 request->send(200);
-
-                uint8_t x = 0, y = 0;
-                while (JpegDec.read())
-                {
-                    display->drawRGBBitmap(x, y, JpegDec.pImage, JpegDec.MCUWidth, JpegDec.MCUHeight);
-
-                    x += JpegDec.MCUWidth;
-                    if (x == 64)
-                    {
-                        x = 0;
-                        y += JpegDec.MCUHeight;
-                    }
-                }
-
-
+                
                 free(buffer);
                 buffer = NULL;
             }
         });
+
+    server.on("/clear", [](AsyncWebServerRequest *request){
+        display->clearScreen();
+        request->send(200);
+    });
 
     server.begin();
 
